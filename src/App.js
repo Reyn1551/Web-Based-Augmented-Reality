@@ -12,7 +12,7 @@ function App() {
   let scene, camera, renderer;
 
   let models = [
-    "./dylan_armchair_yolk_yellow.glb",
+    "./plesiosaurus.glb",
     "./ivan_armchair_mineral_blue.glb",
     "./marble_coffee_table.glb",
     "./flippa_functional_coffee_table_w._storagewalnut.glb",
