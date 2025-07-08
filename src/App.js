@@ -13,7 +13,7 @@ function App() {
 
   let models = [
     "./plesiosaurus.glb",
-    "./ivan_armchair_mineral_blue.glb",
+    "./Triceratops.glb",
     "./marble_coffee_table.glb",
     "./flippa_functional_coffee_table_w._storagewalnut.glb",
     "./frame_armchairpetrol_velvet_with_gold_frame.glb",
