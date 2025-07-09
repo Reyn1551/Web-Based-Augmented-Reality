@@ -19,7 +19,7 @@ function App() {
     "./frame_armchairpetrol_velvet_with_gold_frame.glb",
     "./elnaz_nesting_side_tables_brass__green_marble.glb",
   ];
-  let modelScaleFactor = [0.01, 0.01, 0.005, 0.01, 0.01, 0.01];
+  let modelScaleFactor = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1];
   let items = [];
   let itemSelectedIndex = 0;
 
@@ -199,3 +199,4 @@ function App() {
 }
 
 export default App;
+
