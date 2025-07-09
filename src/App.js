@@ -15,8 +15,13 @@ function App() {
     "./plesiosaurus.glb",
     "./Triceratops.glb",
     "./pteranodon.glb",
+    "./velociraptor.glb",
+    "./dilophosaurus.glb",
+    "./carnage_dilophosaurus.glb",
+    "./allosaurus.glb",
+    "./t-rex.glb",
   ];
-  let modelScaleFactor = [0.1, 0.1, 0.1];
+  let modelScaleFactor = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1];
   let items = [];
   let itemSelectedIndex = 0;
 
