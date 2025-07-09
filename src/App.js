@@ -22,7 +22,17 @@ function App() {
     "./allosaurus.glb",
     "./t-rex.glb",
   ];
-  let modelScaleFactor = [0.1, 0.2, 0.05, 0.1, 0.15, 0.15, 0.2, 0.2];
+  let modelScaleFactor = [0.02, 0.04, 0.01, 0.02, 0.03, 0.03, 0.04, 0.04];
+  const descriptions = [
+    "Plesiosaurus adalah reptil laut besar yang hidup pada masa dinosaurus.",
+    "Triceratops memiliki tiga tanduk di wajahnya dan pelindung tulang besar.",
+    "Pteranodon adalah reptil terbang, bukan dinosaurus, dengan lebar sayap lebih dari 6 meter.",
+    "Velociraptor adalah pemburu kecil yang cerdas dan sering berburu dalam kelompok.",
+    "Dilophosaurus memiliki dua jambul di kepalanya dan dapat menyemburkan racun.",
+    "Carnage Dilophosaurus adalah varian yang lebih besar dan lebih agresif.",
+    "Allosaurus adalah predator besar yang hidup sebelum Tyrannosaurus Rex.",
+    "Tyrannosaurus Rex adalah salah satu predator darat terbesar sepanjang masa.",
+  ];
   let items = [];
   let itemSelectedIndex = 0;
 
@@ -122,16 +132,31 @@ function App() {
       // newModel.position.setFromMatrixPosition(reticle.matrix);
 
       // this will set the position and the rotation to face you
+      if (lastPlacedObject) {
+        scene.remove(lastPlacedObject);
+      }
+
       reticle.matrix.decompose(
         newModel.position,
         newModel.quaternion,
         newModel.scale
       );
+
+      const cameraPosition = new THREE.Vector3();
+      camera.getWorldPosition(cameraPosition);
+      newModel.lookAt(cameraPosition);
+
       let scaleFactor = modelScaleFactor[itemSelectedIndex];
       newModel.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
       scene.add(newModel);
       lastPlacedObject = newModel;
+
+      const instructionBox = document.getElementById("instruction-box");
+      instructionBox.style.opacity = "1";
+      setTimeout(() => {
+        instructionBox.style.opacity = "0";
+      }, 4000);
     }
   }
 
@@ -161,6 +186,12 @@ function App() {
 
   const onClicked = (e, selectItem, index) => {
     itemSelectedIndex = index;
+
+    const descriptionBox = document.getElementById("info-box");
+    const descriptionText = document.getElementById("description-text");
+
+    descriptionText.innerText = descriptions[index];
+    descriptionBox.style.opacity = "1";
 
     // remove image selection from others to indicate unclicked
     for (let i = 0; i < models.length; i++) {
