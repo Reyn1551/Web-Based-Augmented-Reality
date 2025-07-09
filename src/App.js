@@ -1,4 +1,5 @@
 import "./App.css";
+import { useEffect } from "react";
 import * as THREE from "three";
 import { ARButton } from "three/examples/jsm/webxr/ARButton";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
@@ -21,15 +22,19 @@ function App() {
     "./allosaurus.glb",
     "./t-rex.glb",
   ];
-  let modelScaleFactor = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1];
+  let modelScaleFactor = [0.1, 0.2, 0.05, 0.1, 0.15, 0.15, 0.2, 0.2];
   let items = [];
   let itemSelectedIndex = 0;
 
   let controller;
+  let lastPlacedObject = null;
+  let initialPinchDistance = 0;
 
-  init();
-  setupFurnitureSelection();
-  animate();
+  useEffect(() => {
+    init();
+    setupFurnitureSelection();
+    animate();
+  }, []);
 
   function init() {
     let myCanvas = document.getElementById("canvas");
@@ -84,6 +89,10 @@ function App() {
     arButton.style.bottom = "20%";
     document.body.appendChild(arButton);
 
+    renderer.domElement.addEventListener("touchstart", onTouchStart, false);
+    renderer.domElement.addEventListener("touchmove", onTouchMove, false);
+    renderer.domElement.addEventListener("touchend", onTouchEnd, false);
+
     for (let i = 0; i < models.length; i++) {
       const loader = new GLTFLoader();
       loader.load(models[i], function (glb) {
@@ -106,7 +115,7 @@ function App() {
   }
 
   function onSelect() {
-    if (reticle.visible) {
+    if (reticle.visible && items[itemSelectedIndex]) {
       let newModel = items[itemSelectedIndex].clone();
       newModel.visible = true;
       // this one will set the position but not the rotation
@@ -122,7 +131,32 @@ function App() {
       newModel.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
       scene.add(newModel);
+      lastPlacedObject = newModel;
     }
+  }
+
+  function onTouchStart(event) {
+    if (event.touches.length === 2) {
+      const dx = event.touches[0].pageX - event.touches[1].pageX;
+      const dy = event.touches[0].pageY - event.touches[1].pageY;
+      initialPinchDistance = Math.sqrt(dx * dx + dy * dy);
+    }
+  }
+
+  function onTouchMove(event) {
+    if (event.touches.length === 2 && lastPlacedObject) {
+      const dx = event.touches[0].pageX - event.touches[1].pageX;
+      const dy = event.touches[0].pageY - event.touches[1].pageY;
+      const newPinchDistance = Math.sqrt(dx * dx + dy * dy);
+      const scale = newPinchDistance / initialPinchDistance;
+
+      lastPlacedObject.scale.multiplyScalar(scale);
+      initialPinchDistance = newPinchDistance;
+    }
+  }
+
+  function onTouchEnd(event) {
+    initialPinchDistance = 0;
   }
 
   const onClicked = (e, selectItem, index) => {
