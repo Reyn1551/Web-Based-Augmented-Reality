@@ -12,14 +12,11 @@ function App() {
   let scene, camera, renderer;
 
   let models = [
-    "./armchair.glb",
-    "./dylan_armchair_yolk_yellow.glb",
-    "./marble_coffee_table.glb",
-    "./flippa_functional_coffee_table_w._storagewalnut.glb",
-    "./frame_armchairpetrol_velvet_with_gold_frame.glb",
-    "./elnaz_nesting_side_tables_brass__green_marble.glb",
+    "./plesiosaurus.glb",
+    "./Triceratops.glb",
+    "./pteranodon.glb",
   ];
-  let modelScaleFactor = [0.01, 0.01, 0.01, 0.01, 0.01, 0.01];
+  let modelScaleFactor = [0.1, 0.1, 0.1];
   let items = [];
   let itemSelectedIndex = 0;
 
